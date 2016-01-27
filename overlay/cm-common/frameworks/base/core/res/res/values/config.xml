@@ -49,4 +49,7 @@
          config to 7. -->
     <integer name="config_deviceHardwareWakeKeys">64</integer>
 
+    <!-- Boolean to show HW keys enable/disbale option -->
+    <bool name="config_hwKeysPref">true</bool>
+
 </resources>
