@@ -121,9 +121,13 @@ public class SamsungOmap4RIL extends RIL implements CommandsInterface {
 
     private Object mCatProCmdBuffer;
 
-    public SamsungOmap4RIL(Context context, int networkMode, int cdmaSubscription, Integer instanceid) {
-        super(context, networkMode, cdmaSubscription);
+    public SamsungOmap4RIL(Context context, int preferredNetworkType, int cdmaSubscription, Integer instanceid) {
+        super(context, preferredNetworkType, cdmaSubscription, instanceid);
         mQANElements = 5;
+    }
+
+    public SamsungOmap4RIL(Context context, int preferredNetworkType, int cdmaSubscription) {
+        super(context, preferredNetworkType, cdmaSubscription, null);
     }
 
     static String
@@ -428,6 +432,16 @@ public class SamsungOmap4RIL extends RIL implements CommandsInterface {
             mCatProCmdRegistrant.notifyRegistrant(
                                 new AsyncResult (null, mCatProCmdBuffer, null));
             mCatProCmdBuffer = null;
+        }
+    }
+
+    @Override
+    public void getRadioCapability(Message response) {
+        riljLog("getRadioCapability: returning static radio capability");
+        if (response != null) {
+            Object ret = makeStaticRadioCapability();
+            AsyncResult.forMessage(response, ret, null);
+            response.sendToTarget();
         }
     }
 
